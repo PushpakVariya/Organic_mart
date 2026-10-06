@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Admin Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <h4 class="mb-4">Admin Dashboard</h4>
+    <div class="row g-3 mb-4">
+        <div class="col-md-2 col-6"><div class="dashboard-card"><h6>Farmers</h6><h3 th:text="${stats.totalFarmers}">0</h3></div></div>
+        <div class="col-md-2 col-6"><div class="dashboard-card"><h6>Customers</h6><h3 th:text="${stats.totalCustomers}">0</h3></div></div>
+        <div class="col-md-2 col-6"><div class="dashboard-card"><h6>Products</h6><h3 th:text="${stats.totalProducts}">0</h3></div></div>
+        <div class="col-md-2 col-6"><div class="dashboard-card"><h6>Orders</h6><h3 th:text="${stats.totalOrders}">0</h3></div></div>
+        <div class="col-md-2 col-6"><div class="dashboard-card"><h6>Revenue</h6><h3 th:text="'₹' + ${stats.totalRevenue}">0</h3></div></div>
+        <div class="col-md-2 col-6"><div class="dashboard-card"><h6>Pending Certs</h6><h3 th:text="${stats.pendingCertificates}">0</h3></div></div>
+    </div>
+
+    <div class="d-flex gap-2 flex-wrap">
+        <a th:href="@{/admin/certificates}" class="btn btn-organic">Review Certificates</a>
+        <a th:href="@{/admin/users}" class="btn btn-outline-success">Manage Users</a>
+        <a th:href="@{/admin/orders}" class="btn btn-outline-success">Manage Orders</a>
+        <a th:href="@{/admin/delivery-partners}" class="btn btn-outline-success">Delivery Partners</a>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

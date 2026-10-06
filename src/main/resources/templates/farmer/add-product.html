@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Add Product')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4" style="max-width:650px;">
+    <div class="dashboard-card">
+        <h4 class="mb-3" th:text="#{farmer.addProduct.title}">Add New Product</h4>
+        <form th:action="@{/farmer/products/add}" th:object="${productRequest}" method="post" enctype="multipart/form-data">
+            <div class="row g-3">
+                <div class="col-md-8">
+                    <label class="form-label" th:text="#{farmer.addProduct.productName}">Product Name</label>
+                    <input type="text" th:field="*{name}" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" th:text="#{farmer.addProduct.category}">Category</label>
+                    <select th:field="*{categoryId}" class="form-select" required>
+                        <option th:each="c : ${categories}" th:value="${c.id}" th:text="${c.name}"></option>
+                    </select>
+                </div>
+                <div class="col-12">
+                    <label class="form-label" th:text="#{farmer.addProduct.description}">Description</label>
+                    <textarea th:field="*{description}" class="form-control" rows="3"></textarea>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" th:text="#{farmer.addProduct.price}">Price (₹)</label>
+                    <input type="number" step="0.01" th:field="*{price}" class="form-control" required>
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" th:text="#{farmer.addProduct.weight}">Weight (e.g. 500g)</label>
+                    <input type="text" th:field="*{weight}" class="form-control">
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label" th:text="#{farmer.addProduct.stock}">Stock Quantity</label>
+                    <input type="number" th:field="*{stock}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" th:text="#{farmer.addProduct.harvestDate}">Harvest Date</label>
+                    <input type="date" th:field="*{harvestDate}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label" th:text="#{farmer.addProduct.expiryDate}">Expiry Date</label>
+                    <input type="date" th:field="*{expiryDate}" class="form-control">
+                </div>
+                <div class="col-12">
+                    <label class="form-label" th:text="#{farmer.addProduct.images}">Product Images</label>
+                    <input type="file" name="images" class="form-control" multiple accept="image/*">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-organic mt-4 w-100" th:text="#{farmer.addProduct.submit}">Add Product</button>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

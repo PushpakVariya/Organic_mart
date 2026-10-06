@@ -1,0 +1,13 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Error')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container text-center my-5">
+    <i class="fa-solid fa-circle-exclamation" style="font-size:3.5rem;color:var(--accent-orange);"></i>
+    <h4 class="mt-3" th:text="${errorMessage}">Something went wrong.</h4>
+    <a th:href="@{/}" class="btn btn-organic mt-3">Back to Home</a>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+</body>
+</html>

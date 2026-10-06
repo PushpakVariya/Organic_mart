@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My Cart')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <h4 class="mb-3">My Cart</h4>
+    <div th:if="${cart.items.isEmpty()}" class="alert alert-info">Your cart is empty. <a th:href="@{/products}">Browse products</a></div>
+
+    <div th:unless="${cart.items.isEmpty()}">
+        <table class="table bg-white shadow-sm rounded">
+            <thead><tr><th>Product</th><th>Price</th><th>Qty</th><th>Subtotal</th><th></th></tr></thead>
+            <tbody>
+                <tr th:each="item : ${cart.items}">
+                    <td th:text="${item.product.name}"></td>
+                    <td th:text="'₹' + ${item.product.price}"></td>
+                    <td>
+                        <form th:action="@{/cart/update}" method="post" class="d-flex">
+                            <input type="hidden" name="productId" th:value="${item.product.id}"/>
+                            <input type="number" name="quantity" th:value="${item.quantity}" min="0" class="form-control form-control-sm" style="width:70px;">
+                            <button class="btn btn-sm btn-outline-success ms-2">Update</button>
+                        </form>
+                    </td>
+                    <td th:text="'₹' + ${item.product.price * item.quantity}"></td>
+                    <td>
+                        <form th:action="@{/cart/remove}" method="post">
+                            <input type="hidden" name="productId" th:value="${item.product.id}"/>
+                            <button class="btn btn-sm btn-outline-danger"><i class="fa-solid fa-trash"></i></button>
+                        </form>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <a th:href="@{/checkout}" class="btn btn-organic">Proceed to Checkout</a>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

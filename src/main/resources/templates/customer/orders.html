@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My Orders')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <h4 class="mb-3">My Orders</h4>
+    <div class="table-responsive">
+        <table class="table bg-white shadow-sm rounded">
+            <thead><tr><th>Order #</th><th>Date</th><th>Total</th><th>Status</th><th></th></tr></thead>
+            <tbody>
+                <tr th:each="o : ${orders}">
+                    <td th:text="${o.orderNumber}"></td>
+                    <td th:text="${#temporals.format(o.placedAt, 'dd MMM yyyy')}"></td>
+                    <td th:text="'₹' + ${o.totalAmount}"></td>
+                    <td><span class="status-badge" th:classappend="'status-' + ${o.status}" th:text="${o.status}"></span></td>
+                    <td><a th:href="@{/orders/{n}(n=${o.orderNumber})}" class="btn btn-sm btn-outline-success">Details</a></td>
+                </tr>
+                <tr th:if="${orders.isEmpty()}"><td colspan="5" class="text-muted">No orders yet.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

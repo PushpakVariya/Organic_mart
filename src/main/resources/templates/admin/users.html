@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Manage Users')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container my-4">
+    <h4 class="mb-3">All Users</h4>
+    <table class="table bg-white shadow-sm rounded">
+        <thead><tr><th>Name</th><th>Email</th><th>Mobile</th><th>Roles</th><th>Status</th></tr></thead>
+        <tbody>
+            <tr th:each="u : ${users}">
+                <td th:text="${u.fullName}"></td>
+                <td th:text="${u.email}"></td>
+                <td th:text="${u.mobileNumber}"></td>
+                <td><span th:each="r : ${u.roles}" th:text="${r.name} + ' '"></span></td>
+                <td><span class="status-badge" th:classappend="${u.enabled ? 'status-APPROVED' : 'status-PENDING'}"
+                          th:text="${u.enabled ? 'Active' : 'Unverified'}"></span></td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

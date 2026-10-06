@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:replace="~{fragments/layout :: head(${product.name})}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-5">
+    <div class="row g-4">
+        <div class="col-md-5">
+            <img th:if="${!product.images.isEmpty()}" th:src="${product.images[0].imageUrl}"
+                 class="img-fluid rounded" style="border-radius:var(--radius);" alt="product image"/>
+            <img th:unless="${!product.images.isEmpty()}" src="https://placehold.co/500x400/e8f5e9/2e7d32?text=OrganicMart"
+                 class="img-fluid rounded" alt="placeholder"/>
+        </div>
+        <div class="col-md-7">
+            <span class="badge-verified"><i class="fa-solid fa-check"></i> Verified Organic Farmer</span>
+            <h2 class="mt-2" th:text="${product.name}">Product Name</h2>
+            <p class="text-muted" th:text="${product.category.name}">Category</p>
+            <h3 class="price-tag" th:text="'₹' + ${product.price} + (${product.weight} != null ? ' / ' + ${product.weight} : '')">₹0</h3>
+            <p th:text="${product.description}">Description</p>
+
+            <ul class="list-unstyled small text-muted">
+                <li th:if="${product.harvestDate}"><b>Harvest date:</b> <span th:text="${product.harvestDate}"></span></li>
+                <li th:if="${product.expiryDate}"><b>Best before:</b> <span th:text="${product.expiryDate}"></span></li>
+                <li><b>Sold by:</b> <span th:text="${product.farmerProfile.farmName}">Farm</span>,
+                    <span th:text="${product.farmerProfile.village + ', ' + product.farmerProfile.district}"></span></li>
+            </ul>
+
+            <form th:action="@{/cart/add}" method="post" class="d-flex align-items-center gap-2 mt-3" sec:authorize="hasRole('CUSTOMER')">
+                <input type="hidden" name="productId" th:value="${product.id}"/>
+                <input type="number" name="quantity" value="1" min="1" class="form-control" style="width:90px;">
+                <button type="submit" class="btn btn-organic"><i class="fa-solid fa-cart-plus"></i> Add to Cart</button>
+            </form>
+            <a sec:authorize="!isAuthenticated()" th:href="@{/auth/login}" class="btn btn-organic mt-3">Login to purchase</a>
+        </div>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

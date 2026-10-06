@@ -1,0 +1,11 @@
+target/
+uploads/
+*.iml
+.idea/
+.vscode/
+.classpath
+.project
+.settings/
+*.log
+.DS_Store
+HELP.md

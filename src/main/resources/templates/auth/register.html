@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Register')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="auth-card fade-in">
+    <h3 class="text-center mb-3" th:text="#{auth.register.title}">Create Your Account</h3>
+    <p th:if="${errorMessage}" class="alert alert-danger" th:text="${errorMessage}"></p>
+
+    <form th:action="@{/auth/register}" th:object="${registerRequest}" method="post">
+        <div class="mb-3">
+            <label class="form-label" th:text="#{auth.register.iAmA}">I am a</label>
+            <select th:field="*{role}" class="form-select">
+                <option value="ROLE_CUSTOMER" th:text="#{auth.register.customer}">Customer</option>
+                <option value="ROLE_FARMER" th:text="#{auth.register.farmer}">Farmer</option>
+            </select>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" th:text="#{auth.register.fullName}">Full Name</label>
+            <input type="text" th:field="*{fullName}" class="form-control">
+            <small class="text-danger" th:if="${#fields.hasErrors('fullName')}" th:errors="*{fullName}"></small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" th:text="#{auth.register.mobile}">Mobile Number</label>
+            <input type="text" th:field="*{mobileNumber}" class="form-control" th:placeholder="#{auth.register.mobileHint}">
+            <small class="text-danger" th:if="${#fields.hasErrors('mobileNumber')}" th:errors="*{mobileNumber}"></small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" th:text="#{auth.register.email}">Email</label>
+            <input type="email" th:field="*{email}" class="form-control">
+            <small class="text-danger" th:if="${#fields.hasErrors('email')}" th:errors="*{email}"></small>
+        </div>
+        <div class="mb-3">
+            <label class="form-label" th:text="#{auth.register.password}">Password</label>
+            <input type="password" th:field="*{password}" class="form-control">
+            <small class="text-danger" th:if="${#fields.hasErrors('password')}" th:errors="*{password}"></small>
+        </div>
+        <button type="submit" class="btn btn-organic w-100" th:text="#{auth.register.submit}">Register</button>
+    </form>
+    <div class="text-center mt-3">
+        <span class="small" th:text="#{auth.register.alreadyHaveAccount}">Already have an account?</span>
+        <a th:href="@{/auth/login}" th:text="#{auth.register.loginLink}">Login</a>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Complete Profile')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4" style="max-width:650px;">
+    <div class="dashboard-card">
+        <h4 class="mb-3">Complete Your Farmer Profile</h4>
+        <form th:action="@{/farmer/profile/complete}" th:object="${farmerProfileRequest}" method="post" enctype="multipart/form-data">
+            <div class="row g-3">
+                <div class="col-md-6">
+                    <label class="form-label">Farm Name</label>
+                    <input type="text" th:field="*{farmName}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Village</label>
+                    <input type="text" th:field="*{village}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Taluka</label>
+                    <input type="text" th:field="*{taluka}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">District</label>
+                    <input type="text" th:field="*{district}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">State</label>
+                    <input type="text" th:field="*{state}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">PIN Code</label>
+                    <input type="text" th:field="*{pinCode}" class="form-control" required>
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Profile Photo</label>
+                    <input type="file" name="photo" class="form-control" accept="image/*">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Aadhaar Upload</label>
+                    <input type="file" name="aadhaar" class="form-control" accept="image/*,.pdf">
+                </div>
+                <div class="col-12"><hr><h6>Bank Details</h6></div>
+                <div class="col-md-6">
+                    <label class="form-label">Account Holder Name</label>
+                    <input type="text" th:field="*{accountHolderName}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Account Number</label>
+                    <input type="text" th:field="*{accountNumber}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">IFSC Code</label>
+                    <input type="text" th:field="*{ifscCode}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">Bank Name</label>
+                    <input type="text" th:field="*{bankName}" class="form-control">
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label">UPI ID</label>
+                    <input type="text" th:field="*{upiId}" class="form-control">
+                </div>
+            </div>
+            <button type="submit" class="btn btn-organic mt-4 w-100">Save Profile</button>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

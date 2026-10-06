@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Products')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <form th:action="@{/products}" method="get" class="d-flex mb-4">
+        <input type="text" name="keyword" th:value="${keyword}" class="form-control me-2" placeholder="Search organic products...">
+        <button class="btn btn-organic" type="submit"><i class="fa-solid fa-search"></i></button>
+    </form>
+
+    <div class="d-flex flex-wrap mb-4">
+        <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" class="category-pill">
+            <span th:text="${cat.name}">Category</span>
+        </a>
+    </div>
+
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6" th:each="product : ${products}">
+            <div class="card card-organic h-100">
+                <img th:if="${!product.images.isEmpty()}" th:src="${product.images[0].imageUrl}" alt="product image"/>
+                <img th:unless="${!product.images.isEmpty()}" src="https://placehold.co/400x300/e8f5e9/2e7d32?text=OrganicMart" alt="placeholder"/>
+                <div class="card-body">
+                    <h6 class="mb-1" th:text="${product.name}">Product Name</h6>
+                    <p class="price-tag mb-2" th:text="'₹' + ${product.price}">₹0</p>
+                    <a th:href="@{/products/{id}(id=${product.id})}" class="btn btn-organic btn-sm w-100">View</a>
+                </div>
+            </div>
+        </div>
+        <p th:if="${products.isEmpty()}" class="text-muted">No products found.</p>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

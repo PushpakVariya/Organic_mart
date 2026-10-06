@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Delivery Partners')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container my-4">
+    <h4 class="mb-3">Pending Delivery Partner Approvals</h4>
+    <div th:each="p : ${partners}" class="dashboard-card mb-3 d-flex justify-content-between align-items-center">
+        <div>
+            <b th:text="${p.user.fullName}"></b> — <span th:text="${p.user.email}"></span><br>
+            <span class="text-muted">Vehicle: <span th:text="${p.vehicleNumber}"></span> | Area: <span th:text="${p.coverageArea}"></span></span>
+        </div>
+        <div>
+            <form th:action="@{/admin/delivery-partners/{id}/approve(id=${p.user.id})}" method="post" class="d-inline">
+                <input type="hidden" name="approve" value="true">
+                <button class="btn btn-sm btn-organic">Approve</button>
+            </form>
+            <form th:action="@{/admin/delivery-partners/{id}/approve(id=${p.user.id})}" method="post" class="d-inline">
+                <input type="hidden" name="approve" value="false">
+                <button class="btn btn-sm btn-outline-danger">Reject</button>
+            </form>
+        </div>
+    </div>
+    <p th:if="${partners.isEmpty()}" class="text-muted">No pending delivery partner requests.</p>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

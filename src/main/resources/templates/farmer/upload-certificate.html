@@ -1,0 +1,35 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Upload Certificate')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4" style="max-width:550px;">
+    <div class="dashboard-card">
+        <h4 class="mb-3">Upload Organic Certificate</h4>
+        <form th:action="@{/farmer/certificate/upload}" method="post" enctype="multipart/form-data">
+            <div class="mb-3">
+                <label class="form-label">Certificate Number</label>
+                <input type="text" name="certificateNumber" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Issue Date</label>
+                <input type="date" name="issueDate" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Expiry Date</label>
+                <input type="date" name="expiryDate" class="form-control">
+            </div>
+            <div class="mb-3">
+                <label class="form-label">Certificate File (PDF/JPG/PNG)</label>
+                <input type="file" name="certificateFile" class="form-control" accept=".pdf,image/*" required>
+            </div>
+            <button type="submit" class="btn btn-organic w-100">Submit for Review</button>
+        </form>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

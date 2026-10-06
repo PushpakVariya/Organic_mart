@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Delivery Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+<div class="container my-4">
+    <h4 class="mb-3">Assigned Orders</h4>
+    <div th:each="o : ${orders}" class="dashboard-card mb-3">
+        <div class="d-flex justify-content-between align-items-center">
+            <div>
+                <b th:text="${o.orderNumber}"></b> —
+                <span th:text="${o.address.recipientName + ', ' + o.address.city}"></span>
+                <span class="status-badge ms-2" th:classappend="'status-' + ${o.status}" th:text="${o.status}"></span>
+            </div>
+            <form th:action="@{/delivery/orders/{id}/status(id=${o.id})}" method="post" class="d-flex gap-2">
+                <select name="status" class="form-select form-select-sm">
+                    <option value="OUT_FOR_DELIVERY">Out for Delivery</option>
+                    <option value="DELIVERED">Delivered</option>
+                    <option value="CANCELLED">Cancelled</option>
+                </select>
+                <button class="btn btn-sm btn-organic">Update</button>
+            </form>
+        </div>
+    </div>
+    <p th:if="${orders.isEmpty()}" class="text-muted">No orders assigned yet.</p>
+</div>
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

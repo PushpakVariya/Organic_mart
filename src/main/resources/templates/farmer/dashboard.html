@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Farmer Dashboard')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <div class="d-flex justify-content-between align-items-center mb-3">
+        <h4><span th:text="#{farmer.dashboard.welcome}">Welcome</span>, <span th:text="${profile.farmName}">Farm</span></h4>
+        <div>
+            <a th:href="@{/farmer/certificate/upload}" class="btn btn-outline-success me-2" th:text="#{farmer.dashboard.uploadCert}">Upload Certificate</a>
+            <a th:href="@{/farmer/products/add}" class="btn btn-organic">+ <span th:text="#{farmer.dashboard.addProduct}">Add Product</span></a>
+        </div>
+    </div>
+
+    <div class="row g-3 mb-4">
+        <div class="col-md-4">
+            <div class="dashboard-card"><h6 th:text="#{farmer.dashboard.location}">Location</h6>
+                <p class="mb-0" th:text="${profile.village + ', ' + profile.district + ', ' + profile.state}"></p>
+            </div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card"><h6 th:text="#{farmer.dashboard.pinCode}">PIN Code</h6><p class="mb-0" th:text="${profile.pinCode}"></p></div>
+        </div>
+        <div class="col-md-4">
+            <div class="dashboard-card"><h6 th:text="#{farmer.dashboard.totalProducts}">Total Products</h6><h3 th:text="${products.size()}">0</h3></div>
+        </div>
+    </div>
+
+    <h5 class="mb-3" th:text="#{farmer.dashboard.myProducts}">My Products</h5>
+    <div class="table-responsive">
+        <table class="table table-hover bg-white rounded shadow-sm">
+            <thead>
+                <tr>
+                    <th th:text="#{farmer.dashboard.name}">Name</th>
+                    <th th:text="#{farmer.dashboard.category}">Category</th>
+                    <th th:text="#{farmer.dashboard.price}">Price</th>
+                    <th th:text="#{farmer.dashboard.status}">Status</th>
+                    <th></th>
+                </tr>
+            </thead>
+            <tbody>
+                <tr th:each="p : ${products}">
+                    <td th:text="${p.name}"></td>
+                    <td th:text="${p.category.name}"></td>
+                    <td th:text="'₹' + ${p.price}"></td>
+                    <td>
+                        <span class="status-badge" th:classappend="${p.active ? 'status-APPROVED' : 'status-REJECTED'}"
+                              th:text="${p.active} ? #{farmer.dashboard.active} : #{farmer.dashboard.inactive}"></span>
+                    </td>
+                    <td>
+                        <form th:if="${p.active}" th:action="@{/farmer/products/{id}/deactivate(id=${p.id})}" method="post">
+                            <button class="btn btn-sm btn-outline-danger" th:text="#{farmer.dashboard.deactivate}">Deactivate</button>
+                        </form>
+                        <form th:unless="${p.active}" th:action="@{/farmer/products/{id}/activate(id=${p.id})}" method="post">
+                            <button class="btn btn-sm btn-outline-success" th:text="#{farmer.dashboard.activate}">Activate</button>
+                        </form>
+                    </td>
+                </tr>
+                <tr th:if="${products.isEmpty()}"><td colspan="5" class="text-muted" th:text="#{farmer.dashboard.noProducts}">No products yet.</td></tr>
+            </tbody>
+        </table>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

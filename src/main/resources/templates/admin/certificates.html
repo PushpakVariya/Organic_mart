@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Certificate Review')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <h4 class="mb-3">Pending Certificate Verifications</h4>
+    <div th:each="cert : ${certificates}" class="dashboard-card mb-3">
+        <div class="row align-items-center">
+            <div class="col-md-8">
+                <b th:text="${cert.farmerProfile.farmName}"></b> —
+                <span th:text="${cert.farmerProfile.user.fullName}"></span><br>
+                <span class="text-muted">Cert #: <span th:text="${cert.certificateNumber}"></span> |
+                Issue: <span th:text="${cert.issueDate}"></span> | Expiry: <span th:text="${cert.expiryDate}"></span></span><br>
+                <a th:href="${cert.certificateFileUrl}" target="_blank">View Document</a>
+            </div>
+            <div class="col-md-4 text-end">
+                <form th:action="@{/admin/certificates/{id}/review(id=${cert.id})}" method="post" class="d-inline">
+                    <input type="hidden" name="decision" value="APPROVE">
+                    <button class="btn btn-sm btn-organic">Approve</button>
+                </form>
+                <button class="btn btn-sm btn-outline-danger" data-bs-toggle="modal" th:data-bs-target="'#rejectModal'+${cert.id}">Reject</button>
+            </div>
+        </div>
+        <div class="modal fade" th:id="'rejectModal'+${cert.id}" tabindex="-1">
+            <div class="modal-dialog">
+                <div class="modal-content">
+                    <form th:action="@{/admin/certificates/{id}/review(id=${cert.id})}" method="post">
+                        <div class="modal-header"><h6 class="modal-title">Reject Certificate</h6></div>
+                        <div class="modal-body">
+                            <input type="hidden" name="decision" value="REJECT">
+                            <textarea name="rejectionReason" class="form-control" placeholder="Reason for rejection" required></textarea>
+                        </div>
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger">Confirm Reject</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <p th:if="${certificates.isEmpty()}" class="text-muted">No pending certificates.</p>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

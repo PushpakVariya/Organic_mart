@@ -1,0 +1,146 @@
+:root {
+  --primary-green: #2e7d32;
+  --dark-green: #1b5e20;
+  --light-green: #e8f5e9;
+  --accent-orange: #ff9800;
+  --text-dark: #1c1c1c;
+  --text-muted: #6b7280;
+  --white: #ffffff;
+  --radius: 12px;
+  --shadow: 0 4px 16px rgba(0,0,0,0.08);
+  --shadow-hover: 0 8px 24px rgba(0,0,0,0.14);
+}
+
+body {
+  font-family: 'Poppins', 'Segoe UI', sans-serif;
+  background: #fafdfb;
+  color: var(--text-dark);
+}
+
+a { text-decoration: none; }
+
+/* ===== Navbar ===== */
+.navbar-organic {
+  background: linear-gradient(90deg, var(--dark-green), var(--primary-green));
+  box-shadow: var(--shadow);
+  padding: 0.7rem 1.5rem;
+  position: sticky;
+  top: 0;
+  z-index: 999;
+}
+.navbar-organic .navbar-brand {
+  font-weight: 700;
+  font-size: 1.5rem;
+  color: #fff !important;
+}
+.navbar-organic .navbar-brand span { color: var(--accent-orange); }
+.navbar-organic .nav-link {
+  color: #eaf5ea !important;
+  font-weight: 500;
+  transition: color 0.2s;
+}
+.navbar-organic .nav-link:hover { color: var(--accent-orange) !important; }
+
+/* ===== Hero ===== */
+.hero {
+  background: linear-gradient(135deg, var(--light-green), #ffffff);
+  border-radius: var(--radius);
+  padding: 3rem 2rem;
+  margin: 1.5rem;
+}
+.hero h1 { font-weight: 700; color: var(--dark-green); }
+.hero p { color: var(--text-muted); font-size: 1.1rem; }
+.btn-organic {
+  background: var(--primary-green);
+  color: #fff;
+  border: none;
+  border-radius: 30px;
+  padding: 0.6rem 1.8rem;
+  font-weight: 600;
+  transition: transform 0.2s, background 0.2s;
+}
+.btn-organic:hover { background: var(--dark-green); transform: translateY(-2px); color: #fff; }
+
+/* ===== Cards ===== */
+.card-organic {
+  border: none;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  transition: transform 0.25s ease, box-shadow 0.25s ease;
+  overflow: hidden;
+  background: #fff;
+}
+.card-organic:hover { transform: translateY(-6px); box-shadow: var(--shadow-hover); }
+.card-organic img { height: 190px; object-fit: cover; width: 100%; }
+.badge-verified {
+  background: var(--primary-green);
+  color: #fff;
+  font-size: 0.7rem;
+  padding: 0.3rem 0.6rem;
+  border-radius: 20px;
+}
+.price-tag { color: var(--primary-green); font-weight: 700; font-size: 1.15rem; }
+
+/* ===== Category pills ===== */
+.category-pill {
+  display: inline-block;
+  padding: 0.5rem 1.1rem;
+  border-radius: 30px;
+  background: var(--light-green);
+  color: var(--dark-green);
+  font-weight: 500;
+  margin: 0.25rem;
+  transition: 0.2s;
+}
+.category-pill:hover { background: var(--primary-green); color: #fff; }
+
+/* ===== Footer ===== */
+footer.footer-organic {
+  background: var(--dark-green);
+  color: #dfeee0;
+  padding: 2.5rem 1rem 1rem;
+  margin-top: 3rem;
+}
+footer.footer-organic a { color: #dfeee0; }
+footer.footer-organic a:hover { color: var(--accent-orange); }
+
+/* ===== Auth pages ===== */
+.auth-card {
+  max-width: 440px;
+  margin: 3rem auto;
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 2.2rem;
+  background: #fff;
+}
+.auth-card h3 { color: var(--dark-green); font-weight: 700; }
+
+/* ===== Dashboard ===== */
+.dashboard-card {
+  border-radius: var(--radius);
+  box-shadow: var(--shadow);
+  padding: 1.4rem;
+  background: #fff;
+  border-left: 5px solid var(--primary-green);
+}
+.dashboard-card h3 { color: var(--dark-green); font-weight: 700; margin-bottom: 0.2rem; }
+
+/* ===== Status badges ===== */
+.status-badge { border-radius: 20px; padding: 0.3rem 0.8rem; font-size: 0.8rem; font-weight: 600; }
+.status-PLACED, .status-PENDING { background: #fff3e0; color: #ef6c00; }
+.status-CONFIRMED, .status-APPROVED, .status-SUCCESS { background: #e8f5e9; color: var(--primary-green); }
+.status-SHIPPED, .status-OUT_FOR_DELIVERY { background: #e3f2fd; color: #1565c0; }
+.status-DELIVERED { background: #e8f5e9; color: var(--dark-green); }
+.status-CANCELLED, .status-REJECTED, .status-FAILED { background: #ffebee; color: #c62828; }
+
+/* Loading screen */
+#loading-screen {
+  position: fixed; inset: 0; background: #fff; z-index: 2000;
+  display: flex; align-items: center; justify-content: center;
+  transition: opacity 0.4s ease;
+}
+.spinner-leaf { font-size: 2.5rem; color: var(--primary-green); animation: spin 1.2s linear infinite; }
+@keyframes spin { 100% { transform: rotate(360deg); } }
+
+.fade-in { animation: fadeIn 0.5s ease; }
+@keyframes fadeIn { from { opacity: 0; transform: translateY(10px);} to { opacity: 1; transform: translateY(0);} }

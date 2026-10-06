@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('My Wishlist')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <h4 class="mb-3">My Wishlist</h4>
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6" th:each="w : ${wishlist}">
+            <div class="card card-organic h-100">
+                <div class="card-body">
+                    <h6 th:text="${w.product.name}"></h6>
+                    <p class="price-tag" th:text="'₹' + ${w.product.price}"></p>
+                    <a th:href="@{/products/{id}(id=${w.product.id})}" class="btn btn-organic btn-sm w-100 mb-2">View</a>
+                    <form th:action="@{/wishlist/toggle}" method="post">
+                        <input type="hidden" name="productId" th:value="${w.product.id}"/>
+                        <button class="btn btn-outline-danger btn-sm w-100">Remove</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+        <p th:if="${wishlist.isEmpty()}" class="text-muted">Your wishlist is empty.</p>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

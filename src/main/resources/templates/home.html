@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Home')}"></head>
+<body>
+<div id="loading-screen"><i class="fa-solid fa-seedling spinner-leaf"></i></div>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<section class="hero fade-in">
+    <div class="container text-center">
+        <h1 class="display-5" th:text="#{home.hero.title}">Farm-Fresh Organic, Delivered Honestly</h1>
+        <p th:text="#{home.hero.subtitle}">Buy certified organic grains, spices, honey and more.</p>
+        <a th:href="@{/products}" class="btn btn-organic mt-2" th:text="#{home.hero.shopNow}">Shop Now</a>
+    </div>
+</section>
+
+<div class="container mb-4">
+    <div class="d-flex flex-wrap justify-content-center">
+        <a th:each="cat : ${categories}" th:href="@{/category/{id}(id=${cat.id})}" class="category-pill">
+            <i th:class="'fa-solid ' + ${cat.iconClass}"></i> <span th:text="${cat.name}">Category</span>
+        </a>
+    </div>
+</div>
+
+<div class="container mb-5">
+    <h4 class="mb-3" style="color:var(--dark-green); font-weight:700;" th:text="#{home.featuredProducts}">Featured Products</h4>
+    <div class="row g-4">
+        <div class="col-md-3 col-sm-6" th:each="product : ${products}">
+            <div class="card card-organic h-100">
+                <img th:if="${!product.images.isEmpty()}" th:src="${product.images[0].imageUrl}" alt="product image"/>
+                <img th:unless="${!product.images.isEmpty()}" src="https://placehold.co/400x300/e8f5e9/2e7d32?text=OrganicMart" alt="placeholder"/>
+                <div class="card-body">
+                    <span class="badge-verified" th:if="${product.farmerProfile != null}">
+                        <i class="fa-solid fa-check"></i> <span th:text="#{home.verifiedFarmer}">Verified Farmer</span>
+                    </span>
+                    <h6 class="mt-2 mb-1" th:text="${product.name}">Product Name</h6>
+                    <p class="price-tag mb-2" th:text="'₹' + ${product.price}">₹0</p>
+                    <a th:href="@{/products/{id}(id=${product.id})}" class="btn btn-organic btn-sm w-100" th:text="#{home.viewProduct}">View</a>
+                </div>
+            </div>
+        </div>
+        <p th:if="${products.isEmpty()}" class="text-muted" th:text="#{home.noProducts}">No products available yet.</p>
+    </div>
+</div>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>

@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head th:replace="~{fragments/layout :: head('Checkout')}"></head>
+<body>
+<nav th:replace="~{fragments/layout :: navbar}"></nav>
+
+<div class="container my-4">
+    <h4 class="mb-3">Checkout</h4>
+    <div class="row g-4">
+        <div class="col-md-7">
+            <div class="dashboard-card mb-3">
+                <h6>Delivery Address</h6>
+                <div th:each="addr : ${addresses}" class="form-check mb-2">
+                    <input class="form-check-input" type="radio" name="addressIdRadio" th:id="'addr'+${addr.id}" th:value="${addr.id}">
+                    <label class="form-check-label" th:for="'addr'+${addr.id}">
+                        <b th:text="${addr.recipientName}"></b> — <span th:text="${addr.addressLine1 + ', ' + addr.city + ', ' + addr.state + ' - ' + addr.pinCode}"></span>
+                    </label>
+                </div>
+                <p th:if="${addresses.isEmpty()}" class="text-muted">No saved addresses yet.</p>
+
+                <hr>
+                <h6>Add New Address</h6>
+                <form th:action="@{/checkout/add-address}" method="post" class="row g-2">
+                    <div class="col-md-6"><input type="text" name="recipientName" class="form-control" placeholder="Full Name" required></div>
+                    <div class="col-md-6"><input type="text" name="phone" class="form-control" placeholder="Phone" required></div>
+                    <div class="col-12"><input type="text" name="addressLine1" class="form-control" placeholder="Address Line 1" required></div>
+                    <div class="col-12"><input type="text" name="addressLine2" class="form-control" placeholder="Address Line 2"></div>
+                    <div class="col-md-4"><input type="text" name="city" class="form-control" placeholder="City" required></div>
+                    <div class="col-md-4"><input type="text" name="state" class="form-control" placeholder="State" required></div>
+                    <div class="col-md-4"><input type="text" name="pinCode" class="form-control" placeholder="PIN Code" required></div>
+                    <div class="col-12"><button class="btn btn-outline-success">Save Address</button></div>
+                </form>
+            </div>
+        </div>
+
+        <div class="col-md-5">
+            <div class="dashboard-card">
+                <h6>Order Summary</h6>
+                <ul class="list-unstyled">
+                    <li th:each="item : ${cart.items}" class="d-flex justify-content-between">
+                        <span th:text="${item.product.name} + ' x ' + ${item.quantity}"></span>
+                        <span th:text="'₹' + ${item.product.price * item.quantity}"></span>
+                    </li>
+                </ul>
+                <hr>
+                <form th:action="@{/checkout/place-order}" method="post" id="placeOrderForm">
+                    <input type="hidden" name="addressId" id="selectedAddressId"/>
+                    <label class="form-label">Payment Method</label>
+                    <select name="paymentMethod" class="form-select mb-3">
+                        <option value="COD">Cash on Delivery</option>
+                        <option value="UPI">UPI</option>
+                        <option value="CARD">Card</option>
+                    </select>
+                    <button type="submit" class="btn btn-organic w-100">Place Order</button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+document.getElementById('placeOrderForm').addEventListener('submit', function(e){
+    var selected = document.querySelector('input[name="addressIdRadio"]:checked');
+    if (!selected) {
+        e.preventDefault();
+        alert('Please select a delivery address.');
+        return;
+    }
+    document.getElementById('selectedAddressId').value = selected.value;
+});
+</script>
+
+<footer th:replace="~{fragments/layout :: footer}"></footer>
+<th:block th:replace="~{fragments/layout :: scripts}"></th:block>
+</body>
+</html>
